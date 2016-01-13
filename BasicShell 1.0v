@@ -1,0 +1,141 @@
+#!/bin/bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+Main() {	
+choice=7
+clear
+echo    "" 
+echo    ""
+echo    "-----  Welcome to the basic shell please select one of the following  -----" 
+echo    ""
+echo    "Current directory is "  
+pwd 
+echo    ""
+echo	"	1 Go to home directory"
+echo    "	2 Go to the parent directory"
+echo    "	3 Manually change the directory"
+echo    "	4 Display all items in the directory"
+echo    "	5 Display the sizes & names of all directories and files"
+echo    "	6 Traverse current Directory"
+echo    "	0 To Exit"
+echo    ""
+echo    "Please choose a word [0,1,2,3,4,5 or 6]? "
+echo    ""
+while [ $choice -eq 7 ]; do
+# read user input
+read choice
+# bash nested if/else
+if [ $choice -eq 0 ] ; then 
+        fin
+else 
+if [ $choice -eq 1 ] ; then 
+        first
+else 
+        if [ $choice -eq 2 ] ; then
+                 second
+        else         
+                if [ $choice -eq 3 ] ; then
+                        third
+                else
+                        if [ $choice -eq 4 ] ; then
+								forth
+						else
+							if [ $choice -eq 5 ] ; then
+									fifth
+							else
+								if [ $choice -eq 6 ] ; then
+										sixth
+								else
+									echo "Please chose from 1-6"
+									choice=7
+										fi
+								fi
+						fi
+                fi   
+        fi
+fi
+fi
+done
+}
+
+first(){
+	cd $DIR
+	Main
+	}
+
+second(){
+	cd ..
+	Main
+	}
+	
+third(){
+	echo    ""
+	echo "Please manually enter the directory you wish to be taken to: "
+	read path
+	cd $path	
+	Main
+	}
+	
+forth(){
+	echo    ""
+	exit=0
+	ls -lh
+	echo    ""
+	echo "Inout 1 to return to main menu"
+	while [ $exit -eq 0 ]; do
+	read exit
+	if [ $exit -eq 1 ] ; then 
+        Main
+	else
+		echo "Please input 1"
+		exit=0
+	fi
+	done
+	}
+	
+fifth(){
+	echo    ""
+	exit=0
+	du -ah --max-depth=1 | sort -hr > /home/surando/Desktop/test.txt
+	du -ah --max-depth=1 | sort -hr
+	echo    ""
+	echo "Inout 1 to return to main menu"
+	while [ $exit -eq 0 ]; do
+	read exit
+	if [ $exit -eq 1 ] ; then 
+        Main
+	else
+		echo "Please input 1"
+		exit=0
+	fi
+	done
+	}
+	
+sixth (){
+	echo    ""
+	exit=0
+	chmod +x trav.sh
+	$DIR/trav.sh > $DIR/trav.txt
+	COUNT=$(gawk '{ sum += $3 }; END { print sum }' $DIR/trav.txt)
+	echo "total| " $COUNT >> $DIR/trav.txt
+	clear
+	cat $DIR/trav.txt
+	echo    ""
+	echo "Inout 1 to return to main menu"
+	while [ $exit -eq 0 ]; do
+	read exit
+	if [ $exit -eq 1 ] ; then 
+        Main
+	else
+		echo "Please input 1"
+		exit=0
+	fi
+	done
+	}
+	
+fin(){
+	clear
+	}
+
+Main

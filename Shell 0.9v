@@ -1,5 +1,4 @@
 #!/bin/bash
-# Modified from http://linuxcommand.org/lc3_adv_dialog.php
 # while-menu-dialog: a menu driven system information program
 # Adjust tcdialog to dialog or similar in Fedora
 

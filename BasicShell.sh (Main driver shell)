@@ -120,6 +120,8 @@ fin(){
 	clear
 	}
 
+chmod +rx trav.sh
+chmod +rx file.sh
 #this command checks if the computer has dialog or not if it does it will run file.sh if it doesn't it will run Main
 command -v dialog >/dev/null 2>&1 || { Main; }
 sh file.sh

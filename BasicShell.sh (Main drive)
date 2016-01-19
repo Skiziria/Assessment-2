@@ -79,50 +79,32 @@ third(){
 	
 forth(){
 	echo    ""
-	exit=0
 	ls -lh
-	echo    ""
-	echo "Inout 1 to return to main menu"
-	while [ $exit -eq 0 ]; do
-	read exit
-	if [ $exit -eq 1 ] ; then 
-        Main
-	else
-		echo "Please input 1"
-		exit=0
-	fi
-	done
+	exitt
 	}
 	
 fifth(){
 	echo    ""
-	exit=0
 	du -ah --max-depth=1 | sort -hr > /home/surando/Desktop/test.txt
 	du -ah --max-depth=1 | sort -hr
-	echo    ""
-	echo "Inout 1 to return to main menu"
-	while [ $exit -eq 0 ]; do
-	read exit
-	if [ $exit -eq 1 ] ; then 
-        Main
-	else
-		echo "Please input 1"
-		exit=0
-	fi
-	done
+	exitt
 	}
 	
 sixth (){
-	echo    ""
-	exit=0
+	echo    ""	
 	chmod +x trav.sh
 	$DIR/trav.sh > $DIR/trav.txt
 	COUNT=$(gawk '{ sum += $3 }; END { print sum }' $DIR/trav.txt)
 	echo "total| " $COUNT >> $DIR/trav.txt
 	clear
 	cat $DIR/trav.txt
+	exitt
+	}
+	
+exitt(){
+	exit=0
 	echo    ""
-	echo "Inout 1 to return to main menu"
+	echo "Input 1 to return to main menu"
 	while [ $exit -eq 0 ]; do
 	read exit
 	if [ $exit -eq 1 ] ; then 
@@ -133,9 +115,11 @@ sixth (){
 	fi
 	done
 	}
-	
+
 fin(){
 	clear
 	}
 
-Main
+#this command checks if the computer has dialog or not if it does it will run file.sh if it doesn't it will run Main
+command -v dialog >/dev/null 2>&1 || { Main; }
+sh file.sh

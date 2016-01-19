@@ -2,6 +2,8 @@
 # while-menu-dialog: a menu driven system information program
 # Adjust tcdialog to dialog or similar in Fedora
 
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 DIALOG_CANCEL=1
 DIALOG_ESC=255
 HEIGHT=25
@@ -25,7 +27,8 @@ while true; do
     "2" "Go to the previous directory" \
     "3" "Manually change the directory" \
     "4" "Display all items in the directory" \
-    "5" "Test1" \
+    "5" "Display the sizes & names of all directories and files" \
+    "6" "Traverse current Directory" \
     2>&1 1>&3)
   exit_status=$?
   exec 3>&-
@@ -70,13 +73,20 @@ while true; do
 	esac
 	;;
     4 )
-	result=$(ls -alh)
+	result=$(ls -lh)
 	display_result "All files containing this directory"
 	;;
     5 )
-	du -abc > /home/surando/Desktop/test.txt
-	result=$(du -abc)
+	du -ah --max-depth=1 | sort -hr > /home/surando/Desktop/test.txt
+	result=$(du -ah --max-depth=1 | sort -hr)
 	display_result "All files containing this directory"
       	;;
+    6)
+	chmod +x trav.sh
+	$DIR/trav.sh > $DIR/trav.txt
+	COUNT=$(gawk '{ sum += $3 }; END { print sum }' $DIR/trav.txt)
+	echo "total| " $COUNT >> $DIR/trav.txt
+	dialog --stdout --textbox $DIR/trav.txt 22 70
+	;;
   esac
 done

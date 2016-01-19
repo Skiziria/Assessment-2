@@ -2,11 +2,11 @@
 
 depth()
 {
-k=0
-while [ $k -lt $1 ]
+treedepth=0
+while [ $treedepth -lt $1 ]
 do
 echo -n " "
-let k++
+let treedepth++
 done
 }
 

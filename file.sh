@@ -1,4 +1,5 @@
 #!/bin/bash
+# Modified from http://linuxcommand.org/lc3_adv_dialog.php
 # while-menu-dialog: a menu driven system information program
 # Adjust tcdialog to dialog or similar in Fedora
 
@@ -8,6 +9,7 @@ DIALOG_CANCEL=1
 DIALOG_ESC=255
 HEIGHT=25
 WIDTH=100
+
 
 display_result() {
   dialog --title "$1" \
@@ -82,7 +84,6 @@ while true; do
 	display_result "All files containing this directory"
       	;;
     6)
-	chmod +x trav.sh
 	$DIR/trav.sh > $DIR/trav.txt
 	COUNT=$(gawk '{ sum += $3 }; END { print sum }' $DIR/trav.txt)
 	echo "total| " $COUNT >> $DIR/trav.txt

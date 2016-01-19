@@ -17,10 +17,10 @@ do
 depth $1
 if [ -d "$1/$i" ]
 then
-output=$(du -bs --max-depth=0 "$1/$i")
+output=$(du -bs --max-depth=0 -h "$1/$i")
 echo "dir. | " $output
 else
-result=$(du -ab --max-depth=0 "$1/$i")
+result=$(du -ab --max-depth=0 -h "$1/$i")
 echo "file | " $result
 fi
 done

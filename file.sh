@@ -1,16 +1,13 @@
 #!/bin/bash
-# Modified from http://linuxcommand.org/lc3_adv_dialog.php
-# while-menu-dialog: a menu driven system information program
-# Adjust tcdialog to dialog or similar in Fedora
-
+#create the path to where the shell was executed from
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
+#set dialog sizes
 DIALOG_CANCEL=1
 DIALOG_ESC=255
 HEIGHT=25
 WIDTH=100
 
-
+#setting up dialog
 display_result() {
   dialog --title "$1" \
     --no-collapse \
@@ -25,7 +22,7 @@ while true; do
     --clear \
     --cancel-label "Exit" \
     --menu "Please select:" $HEIGHT $WIDTH 15 \
-    "1" "Go to home directory" \
+    "1" "Go to starting directory" \
     "2" "Go to the previous directory" \
     "3" "Manually change the directory" \
     "4" "Display all items in the directory" \
@@ -52,12 +49,15 @@ while true; do
 	echo "Program terminated."
 	;;
     1 )
-	cd
+    	#go to the starting directory 
+	cd $DIR
 	;;
     2 )
+    	#go to parent directory
 	cd ..
 	;;
     3 )
+    	#create a dialog where you can manually input the path to where you want to be taken following this style /home/user/Desktop
 	DIALOG=${DIALOG=dialog}
 
 	FILE=`$DIALOG --stdout --title "Please choose a file" --fselect $PWD/ 14 48`
@@ -75,18 +75,23 @@ while true; do
 	esac
 	;;
     4 )
+    	#display all the files and directories with execution premmistions
 	result=$(ls -lh)
-	display_result "All files containing this directory"
+	display_result "All files and directories containing this directory"
 	;;
     5 )
+    	#display all files and directories with their sizes
 	du -ah --max-depth=1 | sort -hr > /home/surando/Desktop/test.txt
 	result=$(du -ah --max-depth=1 | sort -hr)
 	display_result "All files containing this directory"
       	;;
     6)
+    	#use the trav.sh shell and put the output in trav.txt in the starting direcotry
 	$DIR/trav.sh > $DIR/trav.txt
+	#add the total amount at the bottom of trav.txt file
 	COUNT=$(gawk '{ sum += $3 }; END { print sum }' $DIR/trav.txt)
 	echo "total| " $COUNT >> $DIR/trav.txt
+	#display the content of trav.txt in a dialog
 	dialog --stdout --textbox $DIR/trav.txt 22 70
 	;;
   esac

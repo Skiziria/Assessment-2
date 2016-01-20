@@ -1,7 +1,7 @@
 #!/bin/bash
-
+#this is setting the starting directory
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
+#main menu 
 Main() {	
 choice=7
 clear
@@ -10,9 +10,10 @@ echo    ""
 echo    "-----  Welcome to the basic shell please select one of the following  -----" 
 echo    ""
 echo    "Current directory is "  
+#display the current directory
 pwd 
 echo    ""
-echo	"	1 Go to home directory"
+echo	"	1 Go to the starting directory"
 echo    "	2 Go to the parent directory"
 echo    "	3 Manually change the directory"
 echo    "	4 Display all items in the directory"
@@ -22,10 +23,11 @@ echo    "	0 To Exit"
 echo    ""
 echo    "Please choose a word [0,1,2,3,4,5 or 6]? "
 echo    ""
+#while to keep the user prompting if they enter a wrong key
 while [ $choice -eq 7 ]; do
-# read user input
+#read user input
 read choice
-# bash nested if/else
+#bash nested if/else
 if [ $choice -eq 0 ] ; then 
         fin
 else 
@@ -39,19 +41,21 @@ else
                         third
                 else
                         if [ $choice -eq 4 ] ; then
-								forth
-						else
-							if [ $choice -eq 5 ] ; then
-									fifth
-							else
-								if [ $choice -eq 6 ] ; then
-										sixth
-								else
-									echo "Please chose from 1-6"
-									choice=7
-										fi
-								fi
-						fi
+					forth
+			else
+				if [ $choice -eq 5 ] ; then
+					fifth
+				else
+					if [ $choice -eq 6 ] ; then
+						sixth
+					else
+						#if the choise is not from 0-6 it will set the choise to 7
+						#to keep the while loop running
+						echo "Please chose from 0-6"
+						choice=7
+					fi
+				fi
+			fi
                 fi   
         fi
 fi
@@ -60,16 +64,19 @@ done
 }
 
 first(){
+	#go to staring directory
 	cd $DIR
 	Main
 	}
 
 second(){
+	#go to the parent diirectory
 	cd ..
 	Main
 	}
 	
 third(){
+	#manually enter the path in the following structure /home/user/Desktop
 	echo    ""
 	echo "Please manually enter the directory you wish to be taken to: "
 	read path
@@ -85,15 +92,16 @@ forth(){
 	
 fifth(){
 	echo    ""
-	du -ah --max-depth=1 | sort -hr > /home/surando/Desktop/test.txt
+	du -ah --max-depth=1 | sort -hr > $DIR/files&directories.txt
 	du -ah --max-depth=1 | sort -hr
 	exitt
 	}
 	
 sixth (){
-	echo    ""	
-	chmod +x trav.sh
+	echo    ""
+	#run trav.sh and save the output to trav.txt
 	$DIR/trav.sh > $DIR/trav.txt
+	#calculate the total sum of the files
 	COUNT=$(gawk '{ sum += $3 }; END { print sum }' $DIR/trav.txt)
 	echo "total| " $COUNT >> $DIR/trav.txt
 	clear
@@ -102,6 +110,7 @@ sixth (){
 	}
 	
 exitt(){
+	#to go back to the main menu you mist input 1 
 	exit=0
 	echo    ""
 	echo "Input 1 to return to main menu"
@@ -119,7 +128,7 @@ exitt(){
 fin(){
 	clear
 	}
-
+#add execution and read rights to other files so they can be executed/read
 chmod +rx trav.sh
 chmod +rx file.sh
 #this command checks if the computer has dialog or not if it does it will run file.sh if it doesn't it will run Main
